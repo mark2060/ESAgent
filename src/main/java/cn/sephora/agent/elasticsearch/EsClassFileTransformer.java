@@ -12,11 +12,10 @@ import java.security.ProtectionDomain;
  * Created by Mark Wang on 2017/1/24.
  */
 public class EsClassFileTransformer implements ClassFileTransformer {
-    @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer)
             throws IllegalClassFormatException {
         //如果加载Business类才拦截
-        if ("org/springframework/data/elasticsearch/core/ElasticsearchTemplate".equals(className)) {
+        if (className.equals("org/springframework/data/elasticsearch/core/ElasticsearchTemplate")) {
             try {
                 //通过包名获取类文件, javassist的包名是用点分割的，需要转换下
                 CtClass ctClass = ClassPool.getDefault().get(className.replaceAll("/", "."));
